@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+  <title>Auditions</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="index.css">
+
+
+
+</head>
+
+<body>
+  <div class="burger">
+  <span></span>
+</div>
+
+<nav style="background-color: rgb(0,0,0,0.9)">
+  <ul class="main">
+    <li><a href="../home/index.html" style="font-size: 25px; font-weight: 900">Home</a></li>
+    <li><a href="../aboutus/index.html"style="font-size: 25px; font-weight: 900">About Us</a></li>
+    <li><a href="../servies/index.html"style="font-size: 25px; font-weight: 900">Services</a></li>
+    <li><a href="../audtions/index.html"style="font-size: 25px; font-weight: 900">Audtions</a></li>
+    <li><a href="../events/index.html"style="font-size: 25px; font-weight: 900">Events</a></li>
+    <li><a href="../contactus/index2.html"style="font-size: 25px; font-weight: 900">Contact us</a></li>
+  </ul>
+  
+  <div class="about">
+    <p></p>
+  </div>
+  
+  <ul class="sub">
+    <li><a href="#0">  </a></li>
+    <li><a href="#0"> </a> </li>
+  </ul>
+</nav>
+ 
+
+
+   <div class="container" style="position:absolute;
+ top:0px;">
+
+    <div class="jumbotron">
+      
+    <div style="margin-bottom: 3%">
+      <h1>Events</h1>
+      <div id="previousOrders">
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- jQuery -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/4.7.0/firebase.js"></script>
+<script type="text/javascript" src="index.js"></script>
+
+  <script>
+
+
+    var config = {
+ apiKey: "AIzaSyBXmx-BrGO6uWCoorDR2haE4Yuj0Ht1Xjs",
+    authDomain: "kalasitara-4dfef.firebaseapp.com",
+    databaseURL: "https://kalasitara-4dfef.firebaseio.com",
+    projectId: "kalasitara-4dfef",
+    storageBucket: "kalasitara-4dfef.appspot.com",
+    messagingSenderId: "130323472839",
+    appId: "1:130323472839:web:8e106315ec7e515f5079e2",
+    measurementId: "G-TVL6RCTWD0"
+    };
+
+    firebase.initializeApp(config);
+    var database = firebase.database();
+    
+    var firebaseOrdersCollection = database.ref().child('Events');
+
+    function submitOrder() {
+
+      var order = {
+        fullName: $('#fullNameField').val(),
+        notes: $('#notesField').val(), 
+      };
+      
+      firebaseOrdersCollection.push(order);
+      
+    };
+    
+    firebaseOrdersCollection.on('value',function(orders){
+      
+      var allOrdersHtml = "";
+      
+      orders.forEach(function(firebaseOrderReference){
+        
+        var order = firebaseOrderReference.val();
+        console.log(order); //check your console to see it!
+        
+      var individialOrderHtml = `<div class='item'>
+                      <div class="event_container">
+  <div class="event_bg" style="background-image: url(`+order.eimage+`)"></div>
+  <div class="event_info">
+    <div class="event_title">
+      <h4>Title: `+order.etitle+`</h4>
+    </div>
+    <div class="event_desc">
+      <p id="test">Desc: `+order.edesc+`</p>
+    </div>
+    <div class="event_footer">
+      <div class="event_date">
+        <p>Time: `+order.etime+`</p>
+      </div>
+      <div class="event_more">
+        <a href="#" class="btn_more">
+          Date: `+order.edate+`
+        </a>
+      </div>
+    </div>
+  </div>
+</div>                      </div>
+                      `;
+        
+        allOrdersHtml = allOrdersHtml + individialOrderHtml;
+      });
+      
+      $('#previousOrders').html(allOrdersHtml);
+      
+     
+    });
+  </script>
+
+
+
+<footer  class="footer-distributed" style="margin-top: 10vw">
+
+      <div class="footer-left">
+
+        <h3 style="font-size: 30px">KALA<span>SITARA</span></h3>
+
+        <p class="footer-links">
+          <a href="#" class="link-1">Home</a>
+          
+          <a href="#">Blog</a>
+        
+          <a href="#">Pricing</a>
+        
+          <a href="#">About</a>
+          
+          <a href="#">Faq</a>
+          
+          <a href="#">Contact</a>
+        </p>
+
+        <p class="footer-company-name">Company Name © 2015</p>
+      </div>
+
+      <div class="footer-center">
+
+        <div>
+          <i class="fa fa-map-marker"></i>
+          <p><span>444 S. Cedros Ave</span> Solana Beach, California</p>
+        </div>
+
+        <div>
+          <i class="fa fa-phone"></i>
+          <p>+1.555.555.5555</p>
+        </div>
+
+        <div>
+          <i class="fa fa-envelope"></i>
+          <p><a href="mailto:support@company.com" style="color: black">support@company.com</a></p>
+        </div>
+
+      </div>
+
+      <div class="footer-right">
+
+        <p class="footer-company-about" style="color: black">
+          <span style="color: black" >About the company</span>
+          Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+        </p>
+
+        <div class="footer-icons">
+
+          <a href="#"><i class="fa fa-facebook"></i></a>
+          <a href="#"><i class="fa fa-twitter"></i></a>
+          <a href="#"><i class="fa fa-linkedin"></i></a>
+          <a href="#"><i class="fa fa-github"></i></a>
+
+        </div>
+
+      </div>
+
+    </footer>
+
+
+</body>
+
+</html>
